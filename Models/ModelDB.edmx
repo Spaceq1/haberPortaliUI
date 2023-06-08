@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MyoBlog29DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="KategoriId" />
+          </Key>
+          <Property Name="KategoriId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KategoriAdi" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="MyoBlog29DBModelStoreContainer">
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="dbo" store:Type="Tables" />
+          </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyoBlog29DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MyoBlog29DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kategori" EntityType="MyoBlog29DBModel.Kategori" />
+          <EntitySet Name="filtrelerSet" EntityType="MyoBlog29DBModel.filtreler" />
+          <EntitySet Name="haberlerSet" EntityType="MyoBlog29DBModel.haberler" />
+          <EntitySet Name="kategorilerSet" EntityType="MyoBlog29DBModel.kategoriler" />
+          <EntitySet Name="kullaniciSet" EntityType="MyoBlog29DBModel.kullanici" />
+          <AssociationSet Name="filtrelerkullanici" Association="MyoBlog29DBModel.filtrelerkullanici">
+            <End Role="filtreler" EntitySet="filtrelerSet" />
+            <End Role="kullanici" EntitySet="kullaniciSet" />
+          </AssociationSet>
+          <AssociationSet Name="kategorilerfiltreler" Association="MyoBlog29DBModel.kategorilerfiltreler">
+            <End Role="kategoriler" EntitySet="kategorilerSet" />
+            <End Role="filtreler" EntitySet="filtrelerSet" />
+          </AssociationSet>
+          <AssociationSet Name="kategorilerhaberler" Association="MyoBlog29DBModel.kategorilerhaberler">
+            <End Role="kategoriler" EntitySet="kategorilerSet" />
+            <End Role="haberler" EntitySet="haberlerSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="KategoriId" />
+          </Key>
+          <Property Name="KategoriId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KategoriAdi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="filtreler">
+          <Key>
+            <PropertyRef Name="filtreId" />
+          </Key>
+          <Property Name="filtreId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kategoriId" Type="String" Nullable="false" />
+          <Property Name="kullaniciId" Type="String" Nullable="false" />
+          <NavigationProperty Name="kullanici" Relationship="MyoBlog29DBModel.filtrelerkullanici" FromRole="filtreler" ToRole="kullanici" />
+          <NavigationProperty Name="kategoriler" Relationship="MyoBlog29DBModel.kategorilerfiltreler" FromRole="filtreler" ToRole="kategoriler" />
+        </EntityType>
+        <EntityType Name="haberler">
+          <Key>
+            <PropertyRef Name="haberId" />
+          </Key>
+          <Property Name="haberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="baslik" Type="String" Nullable="false" />
+          <Property Name="icerik" Type="String" Nullable="false" />
+          <Property Name="kategoriId" Type="String" Nullable="false" />
+          <Property Name="tarih" Type="String" Nullable="false" />
+          <NavigationProperty Name="kategoriler" Relationship="MyoBlog29DBModel.kategorilerhaberler" FromRole="haberler" ToRole="kategoriler" />
+        </EntityType>
+        <EntityType Name="kategoriler">
+          <Key>
+            <PropertyRef Name="kategoriId" />
+          </Key>
+          <Property Name="kategoriId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kategoriAd" Type="String" Nullable="false" />
+          <Property Name="kategoriAciklama" Type="String" Nullable="false" />
+          <NavigationProperty Name="filtreler" Relationship="MyoBlog29DBModel.kategorilerfiltreler" FromRole="kategoriler" ToRole="filtreler" />
+          <NavigationProperty Name="haberler" Relationship="MyoBlog29DBModel.kategorilerhaberler" FromRole="kategoriler" ToRole="haberler" />
+        </EntityType>
+        <EntityType Name="kullanici">
+          <Key>
+            <PropertyRef Name="kullaniciId" />
+          </Key>
+          <Property Name="kullaniciId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="adSoyad" Type="String" Nullable="false" />
+          <Property Name="email" Type="String" Nullable="false" />
+          <Property Name="sifre" Type="String" Nullable="false" />
+          <Property Name="nick" Type="String" Nullable="false" />
+          <Property Name="uyeAdmin" Type="String" Nullable="false" />
+          <NavigationProperty Name="filtreler" Relationship="MyoBlog29DBModel.filtrelerkullanici" FromRole="kullanici" ToRole="filtreler" />
+        </EntityType>
+        <Association Name="filtrelerkullanici">
+          <End Type="MyoBlog29DBModel.filtreler" Role="filtreler" Multiplicity="1" />
+          <End Type="MyoBlog29DBModel.kullanici" Role="kullanici" Multiplicity="*" />
+        </Association>
+        <Association Name="kategorilerfiltreler">
+          <End Type="MyoBlog29DBModel.kategoriler" Role="kategoriler" Multiplicity="1" />
+          <End Type="MyoBlog29DBModel.filtreler" Role="filtreler" Multiplicity="*" />
+        </Association>
+        <Association Name="kategorilerhaberler">
+          <End Type="MyoBlog29DBModel.kategoriler" Role="kategoriler" Multiplicity="1" />
+          <End Type="MyoBlog29DBModel.haberler" Role="haberler" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyoBlog29DBModelStoreContainer" CdmEntityContainer="MyoBlog29DBEntities">
+          <EntitySetMapping Name="Kategori">
+            <EntityTypeMapping TypeName="MyoBlog29DBModel.Kategori">
+              <MappingFragment StoreEntitySet="Kategori">
+                <ScalarProperty Name="KategoriAdi" ColumnName="KategoriAdi" />
+                <ScalarProperty Name="KategoriId" ColumnName="KategoriId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="c06326477bef40edb7365514ac668290" Name="Diagram1">
+        <EntityTypeShape EntityType="MyoBlog29DBModel.Kategori" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyoBlog29DBModel.filtreler" Width="1.5" PointX="1.125" PointY="1" />
+        <EntityTypeShape EntityType="MyoBlog29DBModel.haberler" Width="1.5" PointX="3.625" PointY="3.75" />
+        <EntityTypeShape EntityType="MyoBlog29DBModel.kategoriler" Width="1.5" PointX="1.125" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MyoBlog29DBModel.kullanici" Width="1.5" PointX="3.625" PointY="1" />
+        <AssociationConnector Association="MyoBlog29DBModel.filtrelerkullanici" />
+        <AssociationConnector Association="MyoBlog29DBModel.kategorilerfiltreler" />
+        <AssociationConnector Association="MyoBlog29DBModel.kategorilerhaberler" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

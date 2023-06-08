@@ -1,0 +1,101 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-2"></div>
+
+    <div class="col-md-4">
+      <div class="card" *ngIf="uye | async as user">
+        <div class="card-header bg-danger text-white">
+          <h4>Profil Fotoğrafı</h4>
+        </div>
+        <div class="card-body">
+          <img width="256" height="256" [src]="user.foto ?? 'assets/profil.png'" />
+          <input #inputField type="file" hidden (change)="ResimYukle($event, user)" />
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-outline-danger" (click)="inputField.click()">Resim Seç</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-4">
+      <div class="card" *ngIf="(uye | async) as user">
+        <form [formGroup]="frm" (ngSubmit)="Kaydet()">
+          <div class="card-header bg-danger text-white">
+            <h4>Profil Bilgileri</h4>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label>Adı Soyadı</label>
+              <input type="text" class="form-control" formControlName="displayName">
+            </div>
+            <div class="form-group">
+              <label>E-Posta</label>
+              <input type="text" class="form-control" formControlName="email">
+            </div>
+            <div class="form-group">
+              <label>Telefon</label>
+              <input type="text" class="form-control" formControlName="tel">
+            </div>
+
+          </div>
+          <div class="card-footer">
+            <input type="submit" class="btn btn-outline-danger" value="Kaydet">
+          </div>
+        </form>
+        <div *ngIf="user.admin == '0'" class="card-footer">
+          <button class="btn btn-outline-dark" (click)="Duzenle(user, modalDetaylar)">Kategorileri
+            Düzenle</button>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<div class="modal fade" tabindex=" -1" #modalDetaylar>
+  <div class="modal-dialog">
+    <form [formGroup]="frm" (ngSubmit)="UyeEkleDuzenle()">
+      <div class="modal-content">
+        <div class="modal-header bg-dark">
+          <h5 class="modal-title text-white">{{ modalBaslik }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body bg-light text-black">
+          <div class="form-group">
+            <div class="form-group">
+              <label>Spor haberleri görmek ister misiniz?</label>
+              <select class="form-control" formControlName="spor">
+                <option value="1">Evet</option>
+                <option value="0">Hayır</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Teknoloji haberleri görmek ister misiniz?</label>
+              <select class="form-control" formControlName="tek">
+                <option value="1">Evet</option>
+                <option value="0">Hayır</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Gündem haberleri görmek ister misiniz?</label>
+              <select class="form-control" formControlName="gundem">
+                <option value="1">Evet</option>
+                <option value="0">Hayır</option>
+              </select>
+            </div>
+            <input type="hidden" class="form-control" formControlName="uid" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input type="submit" class="btn btn-outline-danger" value="Kaydet" />
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
+            Kapat
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

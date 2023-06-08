@@ -1,0 +1,44 @@
+.header-text {
+    text-shadow: 0px 0px 40px rgb(0 0 0 / 0.5);
+    margin: 0 5%;
+    padding: 2% 0;
+    color: black;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 70px;
+}
+
+h2 {
+    font-size: 40px;
+}
+
+.haber {
+    border-radius: 25px;
+    transition: transform 250ms;
+}
+
+.haber:hover {
+    transform: scale(1.1);
+    border-radius: 0px;
+}
+
+.haber-yazi {
+    padding: 0 20px 10px 20px;
+    font-size: 25px;
+    color: black;
+}
+
+.haber-yazi-1 {
+    padding: 0 20px 10px 20px;
+    color: black;
+    text-align: center;
+}
+
+.haber-icerik {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    border-radius: 15px;
+}
